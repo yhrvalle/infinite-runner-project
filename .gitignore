@@ -129,8 +129,6 @@ Desktop.ini
 .DS_Store
 
 # Custom
-/[Aa]ssets/Enthalpy/
-/[Aa]ssets/Enthalpy.meta
 /[Aa]ssets/ImportedAssets/
 /[Aa]ssets/ImportedAssets.meta
 /[Aa]ssets/Plugins/
