@@ -2,10 +2,9 @@ using System.Collections;
 using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
-    private const int ObstacleCount = 10;
-    [SerializeField] private GameObject obstaclePrefab;
-
-    private readonly WaitForSeconds _waitForSeconds1F = new(1f);
+    private const float SpawnWidth = 4f;
+    [SerializeField] private GameObject[] obstaclePrefabs;
+    private readonly WaitForSeconds _waitForSeconds2F = new(2f);
 
     private void Start()
     {
@@ -14,13 +13,12 @@ public class ObstacleSpawner : MonoBehaviour
 
     private IEnumerator SpawnObstacleRoutine()
     {
-        int counter = 0;
-        while (counter < ObstacleCount)
+        while (true)
         {
-            Instantiate(obstaclePrefab, transform.position, Quaternion.identity);
-            yield return _waitForSeconds1F;
-            counter++;
+            GameObject obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+            Vector3 spawnPosition = new(Random.Range(-SpawnWidth, SpawnWidth), transform.position.y, transform.position.z);
+            Instantiate(obstaclePrefab, spawnPosition, Random.rotation);
+            yield return _waitForSeconds2F;
         }
-
     }
 }
