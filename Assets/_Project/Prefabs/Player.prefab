@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca98853cb45d844ab9d46bf74662b409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Core::PlayerCollisionHandler
+  animator: {fileID: 422674266200308424}
 --- !u!114 &2549186578388787716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +204,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcbc89efbe5bd174b99e07c76bd0b6bf, type: 3}
+--- !u!95 &422674266200308424 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1014860696115371117, guid: dcbc89efbe5bd174b99e07c76bd0b6bf, type: 3}
+  m_PrefabInstance: {fileID: 848970776884749989}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5998100731195596978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6410221756858730007, guid: dcbc89efbe5bd174b99e07c76bd0b6bf, type: 3}
