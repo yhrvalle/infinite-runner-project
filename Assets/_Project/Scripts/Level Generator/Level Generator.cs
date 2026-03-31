@@ -7,7 +7,7 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private GameObject chunkPrefab;
     [SerializeField] private Transform chunkParent;
-
+    [SerializeField] private CameraController cameraController;
     private readonly List<GameObject> _chunks = new();
 
     private Camera _camera;
@@ -34,6 +34,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y, Physics.gravity.z - moveSpeed);
+        cameraController.ChangeCameraFOV(moveSpeed);
     }
 
     private void SpawnStartingChunks()
