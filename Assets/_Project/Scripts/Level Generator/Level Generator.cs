@@ -9,8 +9,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private Transform chunkParent;
 
     private readonly List<GameObject> _chunks = new();
-    private readonly float _moveSpeed = 5f;
+
     private Camera _camera;
+
+    private float _minMoveSpeed = 4f;
+    private float _moveSpeed = 8f;
     private void Start()
     {
         SpawnStartingChunks();
@@ -21,6 +24,18 @@ public class LevelGenerator : MonoBehaviour
     {
         ChunkMovement();
     }
+
+    public void ChangeChunkMoveSpeed(float moveSpeed)
+    {
+        _moveSpeed += moveSpeed;
+        if (_moveSpeed <= _minMoveSpeed)
+        {
+            _minMoveSpeed = _moveSpeed;
+        }
+
+        Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y, Physics.gravity.z - moveSpeed);
+    }
+
     private void SpawnStartingChunks()
     {
         for (int i = 0; i < BridgeSize; i++)
