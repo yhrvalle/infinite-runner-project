@@ -555,9 +555,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Core::ObstacleSpawner
   obstaclePrefabs:
   - {fileID: 1282870511359522722, guid: 675685bcc3f0946f09f0ae77a5486080, type: 3}
-  - {fileID: 5492779017460681647, guid: 584adcdadb3fd0fcb9c9bfb25bfb7615, type: 3}
+  - {fileID: 7158515257161375108, guid: c9dd0e161d0dd245b8d4038141d60037, type: 3}
   - {fileID: 8581229546852496972, guid: a651e256e9fd86866a166093b21d5a80, type: 3}
-  - {fileID: 7911885952053381941, guid: c9dd0e161d0dd245b8d4038141d60037, type: 3}
+  - {fileID: 2236311576489262588, guid: 584adcdadb3fd0fcb9c9bfb25bfb7615, type: 3}
 --- !u!1001 &8451498130226443176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -569,22 +569,6 @@ PrefabInstance:
     - target: {fileID: 2033694343503633276, guid: bb5d87a84841e794f993e222bf23fbb5, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2549186578388787716, guid: bb5d87a84841e794f993e222bf23fbb5, type: 3}
-      propertyPath: xClamp
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2549186578388787716, guid: bb5d87a84841e794f993e222bf23fbb5, type: 3}
-      propertyPath: moveSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417391692904226345, guid: bb5d87a84841e794f993e222bf23fbb5, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417391692904226345, guid: bb5d87a84841e794f993e222bf23fbb5, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4987142410633827236, guid: bb5d87a84841e794f993e222bf23fbb5, type: 3}
       propertyPath: m_LocalPosition.x

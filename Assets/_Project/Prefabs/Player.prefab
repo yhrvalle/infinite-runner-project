@@ -9,11 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4987142410633827236}
+  - component: {fileID: 4514467391882692834}
   - component: {fileID: 2549186578388787716}
   - component: {fileID: 4417391692904226345}
+  - component: {fileID: 3926170776071053933}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,6 +36,18 @@ Transform:
   - {fileID: 460431191180018818}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4514467391882692834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033694343503633276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca98853cb45d844ab9d46bf74662b409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::PlayerCollisionHandler
 --- !u!114 &2549186578388787716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,7 +61,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Core::PlayerMovement
   reader: {fileID: 11400000, guid: eb9825a62086cb714aeed138a395b976, type: 2}
-  moveSpeed: 5
+  moveSpeed: 8
+  xClamp: 3
+  zClamp: 2
 --- !u!54 &4417391692904226345
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -71,10 +87,33 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &3926170776071053933
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033694343503633276}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17177941
+  m_Height: 1.9540381
+  m_Direction: 1
+  m_Center: {x: -0.0013145655, y: 0.93920517, z: 0}
 --- !u!1 &8419741014798062963
 GameObject:
   m_ObjectHideFlags: 0
