@@ -5,15 +5,21 @@ public class LevelGenerator : MonoBehaviour
     private const int BridgeSize = 12;
     private const float ChunkSize = 10f;
 
+    [Header("References")]
     [SerializeField] private GameObject chunkPrefab;
     [SerializeField] private Transform chunkParent;
     [SerializeField] private CameraController cameraController;
-    private readonly List<GameObject> _chunks = new();
-
     private Camera _camera;
 
-    private float _minMoveSpeed = 4f;
-    private float _moveSpeed = 8f;
+    [Header("Movement Settings")] 
+    [SerializeField] private float minGravityZ = -2f;
+    [SerializeField] private float maxGravityZ = -22f;
+    [SerializeField] private float minMoveSpeed = 4f;
+    [SerializeField] private float maxMoveSpeed = 16f;
+    [SerializeField] private float moveSpeed = 8f;
+
+    private readonly List<GameObject> _chunks = new();
+
     private void Start()
     {
         SpawnStartingChunks();
@@ -25,16 +31,21 @@ public class LevelGenerator : MonoBehaviour
         ChunkMovement();
     }
 
-    public void ChangeChunkMoveSpeed(float moveSpeed)
+    public void ChangeChunkMoveSpeed(float speedAmount)
     {
-        _moveSpeed += moveSpeed;
-        if (_moveSpeed <= _minMoveSpeed)
+        float desiredMoveSpeed = speedAmount + moveSpeed;
+        desiredMoveSpeed = Mathf.Clamp(desiredMoveSpeed, minMoveSpeed, maxMoveSpeed);
+        if (Mathf.Approximately(desiredMoveSpeed, moveSpeed))
         {
-            _minMoveSpeed = _moveSpeed;
+            return;
         }
 
-        Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y, Physics.gravity.z - moveSpeed);
-        cameraController.ChangeCameraFOV(moveSpeed);
+        moveSpeed = desiredMoveSpeed;
+        float desiredGravityZ = Physics.gravity.z - speedAmount;
+        desiredGravityZ = Mathf.Clamp(desiredGravityZ, maxGravityZ, minGravityZ);
+        Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y, desiredGravityZ);
+        cameraController.ChangeCameraFOV(speedAmount);
+
     }
 
     private void SpawnStartingChunks()
@@ -72,7 +83,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < _chunks.Count; i++)
         {
             GameObject chunk = _chunks[i];
-            chunk.transform.Translate(-transform.forward * (_moveSpeed * Time.deltaTime));
+            chunk.transform.Translate(-transform.forward * (moveSpeed * Time.deltaTime));
             if (chunk.transform.position.z < _camera.transform.position.z - ChunkSize)
             {
                 _chunks.Remove(chunk);
