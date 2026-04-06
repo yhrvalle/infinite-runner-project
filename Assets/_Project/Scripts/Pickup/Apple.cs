@@ -5,9 +5,10 @@ public class Apple : Pickup
     private LevelGenerator _levelGenerator;
     // this is being called everytime an apple is spawned need to learn something
     // like DI to prevent this code smell
-    private void Start()
+    
+    public void Init(LevelGenerator levelGenerator)
     {
-        _levelGenerator = FindAnyObjectByType<LevelGenerator>();
+        this._levelGenerator = levelGenerator;
     }
     protected override void OnPickup()
     {

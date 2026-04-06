@@ -20,6 +20,9 @@ public class Chunk : MonoBehaviour
     [SerializeField] private GameObject coinPrefab;
 
     private readonly List<int> _availableLanes = new() { 0, 1, 2 };
+    
+    private LevelGenerator _levelGenerator;
+    private ScoreManager _scoreManager;
 
     private void Start()
     {
@@ -27,6 +30,13 @@ public class Chunk : MonoBehaviour
         SpawnApple();
         SpawnCoins();
     }
+
+    public void Init(LevelGenerator levelGenerator, ScoreManager scoreManager)
+    {
+        this._levelGenerator =  levelGenerator;
+        this._scoreManager = scoreManager;
+    }
+    
     private void SpawnFences()
     {
         int fencesToSpawn = Random.Range(0, lanesPosition.Length); // number of fences in a chunk
@@ -39,7 +49,8 @@ public class Chunk : MonoBehaviour
             }
 
             int selectedLane = SelectLane();
-            SpawnAtSelectedLane(fencePrefab, selectedLane);
+            Vector3 spawnPosition = CalculateSpawnPosition(selectedLane);
+            Instantiate(fencePrefab, spawnPosition, Quaternion.identity, transform);
         }
     }
 
@@ -51,7 +62,10 @@ public class Chunk : MonoBehaviour
         }
 
         int selectedLane = SelectLane();
-        SpawnAtSelectedLane(applePrefab, selectedLane);
+        Vector3 appleSpawnPosition = CalculateSpawnPosition(selectedLane);
+        Apple newApple = Instantiate(applePrefab, appleSpawnPosition, Quaternion.identity, transform).GetComponent<Apple>();
+        newApple.Init(_levelGenerator);
+        
     }
 
     private void SpawnCoins()
@@ -71,23 +85,38 @@ public class Chunk : MonoBehaviour
                 break;
             }
 
-            SpawnAtSelectedLane(coinPrefab, selectedLane, i, topOfChunk);
+            Vector3 spawnPosition = CalculateSpawnPosition(selectedLane, topOfChunk, i);
+            Coin newCoin = Instantiate(coinPrefab, spawnPosition, Quaternion.identity, transform).GetComponent<Coin>();
+            newCoin.Init(_scoreManager);
+            
         }
     }
 
-    private void SpawnAtSelectedLane(GameObject prefab, int selectedLane)
+    private Vector3 CalculateSpawnPosition(int selectedLane)
     {
-
         Vector3 spawnPosition = new(lanesPosition[selectedLane], transform.position.y, transform.position.z);
-        Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+        return spawnPosition;
     }
 
-    private void SpawnAtSelectedLane(GameObject prefab, int selectedLane, int iterator, float topOfChunkZ)
+    private Vector3 CalculateSpawnPosition(int selectedLane, float topOfChunkZ, int iterator)
+    {
+        Vector3 spawnPosition = new(lanesPosition[selectedLane], transform.position.y, topOfChunkZ - iterator * CoinLaneSpacing);
+        return spawnPosition;
+    }
+    
+    /*private void SpawnAtSelectedLane(GameObject prefab, int selectedLane, int iterator, float topOfChunkZ)
     {
 
         Vector3 spawnPosition = new(lanesPosition[selectedLane], transform.position.y, topOfChunkZ - iterator * CoinLaneSpacing);
         Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
-    }
+    }*/
+    
+    /*private void SpawnAtSelectedLane(GameObject prefab, int selectedLane)
+    {
+
+        Vector3 spawnPosition = new(lanesPosition[selectedLane], transform.position.y, transform.position.z);
+        Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+    }*/
 
     private int SelectLane()
     {

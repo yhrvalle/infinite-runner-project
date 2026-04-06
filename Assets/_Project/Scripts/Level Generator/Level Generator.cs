@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 public class LevelGenerator : MonoBehaviour
@@ -10,6 +11,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private Transform chunkParent;
     [SerializeField] private CameraController cameraController;
     private Camera _camera;
+    private ScoreManager _scoreManager;
 
     [Header("Movement Settings")] 
     [SerializeField] private float minGravityZ = -2f;
@@ -20,11 +22,15 @@ public class LevelGenerator : MonoBehaviour
 
     private readonly List<GameObject> _chunks = new();
 
+    private void Awake()
+    {
+        _scoreManager = FindAnyObjectByType<ScoreManager>();
+        _camera = Camera.main;
+    }
+    
     private void Start()
     {
         SpawnStartingChunks();
-        _camera = Camera.main;
-
     }
     private void Update()
     {
@@ -45,7 +51,6 @@ public class LevelGenerator : MonoBehaviour
         desiredGravityZ = Mathf.Clamp(desiredGravityZ, maxGravityZ, minGravityZ);
         Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y, desiredGravityZ);
         cameraController.ChangeCameraFOV(speedAmount);
-
     }
 
     private void SpawnStartingChunks()
@@ -56,13 +61,17 @@ public class LevelGenerator : MonoBehaviour
         }
 
     }
+    
     private void SpawnChunk()
     {
         float spawnPosZ = CalculateSpawnPosZ();
         Vector3 newChunkPos = new(transform.position.x, transform.position.y, spawnPosZ);
-        GameObject newChunk = Instantiate(chunkPrefab, newChunkPos, transform.rotation, chunkParent);
-        _chunks.Add(newChunk);
+        GameObject newChunkGo = Instantiate(chunkPrefab, newChunkPos, transform.rotation, chunkParent);
+        _chunks.Add(newChunkGo);
+        Chunk newChunk = newChunkGo.GetComponent<Chunk>();
+        newChunk.Init(this, _scoreManager);
     }
+    
     private float CalculateSpawnPosZ()
     {
         float spawnPosZ;
