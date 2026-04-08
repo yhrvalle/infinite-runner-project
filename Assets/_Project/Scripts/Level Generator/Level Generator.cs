@@ -4,9 +4,11 @@ public class LevelGenerator : MonoBehaviour
 {
     private const int BridgeSize = 12;
     private const float ChunkSize = 10f;
+    private const int CheckpointChunkInterval = 8;
 
     [Header("References")]
-    [SerializeField] private GameObject chunkPrefab;
+    [SerializeField] private GameObject[] chunkPrefabs;
+    [SerializeField] private GameObject checkpointChunkPrefab;
     [SerializeField] private Transform chunkParent;
     [SerializeField] private CameraController cameraController;
     private Camera _camera;
@@ -20,6 +22,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float moveSpeed = 8f;
 
     private readonly List<GameObject> _chunks = new();
+    private int _chunkSpawned;
 
     private void Awake()
     {
@@ -31,6 +34,7 @@ public class LevelGenerator : MonoBehaviour
     {
         SpawnStartingChunks();
     }
+    
     private void Update()
     {
         ChunkMovement();
@@ -60,17 +64,36 @@ public class LevelGenerator : MonoBehaviour
         }
 
     }
-    
+
     private void SpawnChunk()
     {
         float spawnPosZ = CalculateSpawnPosZ();
         Vector3 newChunkPos = new(transform.position.x, transform.position.y, spawnPosZ);
-        GameObject newChunkGo = Instantiate(chunkPrefab, newChunkPos, transform.rotation, chunkParent);
+    
+        GameObject chunkToSpawn = ChooseChunkToSpawn();
+        GameObject newChunkGo = Instantiate(chunkToSpawn, newChunkPos, transform.rotation, chunkParent);
         _chunks.Add(newChunkGo);
         Chunk newChunk = newChunkGo.GetComponent<Chunk>();
         newChunk.Init(this, _scoreManager);
+        _chunkSpawned++;
     }
     
+    private GameObject ChooseChunkToSpawn()
+    {
+
+        GameObject chunkToSpawn;
+        if (_chunkSpawned % CheckpointChunkInterval == 0 && _chunkSpawned != 0)
+        {
+            chunkToSpawn = checkpointChunkPrefab;
+        }
+        else
+        {
+            chunkToSpawn = chunkPrefabs[Random.Range(0, chunkPrefabs.Length)];
+        }
+
+        return chunkToSpawn;
+    }
+
     private float CalculateSpawnPosZ()
     {
         float spawnPosZ;

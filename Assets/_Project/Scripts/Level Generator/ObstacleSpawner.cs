@@ -4,6 +4,7 @@ public class ObstacleSpawner : MonoBehaviour
 {
     private const float SpawnWidth = 4f;
     [SerializeField] private GameObject[] obstaclePrefabs;
+    [SerializeField] private GameObject obstacleParent;
     private readonly WaitForSeconds _waitForSeconds2F = new(2f);
 
     private void Start()
@@ -17,7 +18,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             GameObject obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
             Vector3 spawnPosition = new(Random.Range(-SpawnWidth, SpawnWidth), transform.position.y, transform.position.z);
-            Instantiate(obstaclePrefab, spawnPosition, Random.rotation);
+            Instantiate(obstaclePrefab, spawnPosition, Random.rotation, obstacleParent.transform);
             yield return _waitForSeconds2F;
         }
     }
