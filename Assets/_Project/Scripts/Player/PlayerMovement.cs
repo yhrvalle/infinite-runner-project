@@ -49,4 +49,9 @@ public class PlayerMovement : MonoBehaviour
 
         _rb.MovePosition(desiredPosition);
     }
+    
+    public void IncreaseMoveSpeed(float amount)
+    {
+        moveSpeed += amount;
+    }
 }
